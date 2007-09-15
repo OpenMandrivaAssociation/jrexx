@@ -33,7 +33,7 @@
 Summary:        Automaton based regluar expression API for Java
 Name:           jrexx
 Version:        1.1.1
-Release:        %mkrel 3.0.1
+Release:        %mkrel 3.0.2
 Epoch:          0
 License:        LGPL
 URL:            http://www.karneim.com/jrexx/
@@ -43,8 +43,6 @@ Source1:        jrexx-build.xml
 BuildRequires:  jpackage-utils >= 0:1.5.32
 BuildRequires:  ant >= 0:1.5.4
 %if %{gcj_support}
-Requires(post): java-gcj-compat
-Requires(postun): java-gcj-compat
 BuildRequires:  java-gcj-compat-devel
 %else
 BuildArch:      noarch
