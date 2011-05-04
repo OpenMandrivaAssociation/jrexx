@@ -33,7 +33,7 @@
 Summary:        Automaton based regluar expression API for Java
 Name:           jrexx
 Version:        1.1.1
-Release:        %mkrel 3.0.7
+Release:        %mkrel 3.0.8
 Epoch:          0
 License:        LGPL
 URL:            http://www.karneim.com/jrexx/
