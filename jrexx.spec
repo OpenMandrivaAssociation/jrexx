@@ -33,7 +33,7 @@
 Summary:        Automaton based regluar expression API for Java
 Name:           jrexx
 Version:        1.1.1
-Release:        %mkrel 3.0.8
+Release:        3.1.1
 Epoch:          0
 License:        LGPL
 URL:            http://www.karneim.com/jrexx/
@@ -42,13 +42,13 @@ Source0:        jrexx-1.1.1-src.zip
 Source1:        jrexx-build.xml
 BuildRequires:  java-rpmbuild >= 0:1.5.32
 BuildRequires:  ant >= 0:1.5.4
+BuildRequires:  locales-en
 %if %{gcj_support}
 BuildRequires:  java-gcj-compat-devel
 %else
 BuildArch:      noarch
 BuildRequires:  java-devel
 %endif
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 jrexx is a powerful easy-to-use regular expression 
@@ -83,28 +83,24 @@ unzip -q %{SOURCE0}
 cp %{SOURCE1} build.xml
 
 %build
+export LC_ALL=ISO-8859-1
 %{ant} dist
 
 %install
-rm -rf %{buildroot}
-
 # jars
-mkdir -p %{buildroot}%{_javadir}
+mkdir -p $RPM_BUILD_ROOT%{_javadir}
 cp -p output/dist/lib/%{name}-%{version}.jar \
-  %{buildroot}%{_javadir}/%{name}-%{version}.jar
-(cd %{buildroot}%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed "s|-%{version}||g"`; done)
+  $RPM_BUILD_ROOT%{_javadir}/%{name}-%{version}.jar
+(cd $RPM_BUILD_ROOT%{_javadir} && for jar in *-%{version}.jar; do ln -sf ${jar} `echo $jar| sed "s|-%{version}||g"`; done)
 
 # javadoc
-mkdir -p %{buildroot}%{_javadocdir}/%{name}-%{version}
-cp -pr output/dist/jdoc/* %{buildroot}%{_javadocdir}/%{name}-%{version}
-ln -s %{name}-%{version} %{buildroot}%{_javadocdir}/%{name} # ghost symlink
+mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+cp -pr output/dist/jdoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
 
 %if %{gcj_support}
 %{_bindir}/aot-compile-rpm
 %endif
-
-%clean
-rm -rf %{buildroot}
 
 %if %{gcj_support}
 %post
@@ -129,3 +125,59 @@ rm -rf %{buildroot}
 %doc %{_javadocdir}
 
 # -----------------------------------------------------------------------------
+
+
+%changelog
+* Wed May 04 2011 Oden Eriksson <oeriksson@mandriva.com> 0:1.1.1-3.0.8mdv2011.0
++ Revision: 665836
+- mass rebuild
+
+* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.1.1-3.0.7mdv2011.0
++ Revision: 606112
+- rebuild
+
+* Wed Mar 17 2010 Oden Eriksson <oeriksson@mandriva.com> 0:1.1.1-3.0.6mdv2010.1
++ Revision: 523130
+- rebuilt for 2010.1
+
+* Wed Sep 02 2009 Christophe Fergeau <cfergeau@mandriva.com> 0:1.1.1-3.0.5mdv2010.0
++ Revision: 425471
+- rebuild
+
+* Sat Mar 07 2009 Antoine Ginies <aginies@mandriva.com> 0:1.1.1-3.0.4mdv2009.1
++ Revision: 351314
+- rebuild
+
+* Wed Jan 02 2008 Olivier Blin <oblin@mandriva.com> 0:1.1.1-3.0.3mdv2009.0
++ Revision: 140829
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Sun Dec 16 2007 Anssi Hannula <anssi@mandriva.org> 0:1.1.1-3.0.3mdv2008.1
++ Revision: 120946
+- buildrequire java-rpmbuild, i.e. build with icedtea on x86(_64)
+
+* Sat Sep 15 2007 Anssi Hannula <anssi@mandriva.org> 0:1.1.1-3.0.2mdv2008.0
++ Revision: 87440
+- rebuild to filter out autorequires of GCJ AOT objects
+- remove unnecessary Requires(post) on java-gcj-compat
+
+* Thu Aug 02 2007 David Walluck <walluck@mandriva.org> 0:1.1.1-3.0.1mdv2008.0
++ Revision: 58365
+- Import jrexx
+
+
+
+* Wed Jul 18 2007 Alexander Kurtakov <akurtakov@active-lynx.com> - 0:1.1.1-3.0.1mdv2008.0
+- Adapt for Mandriva
+
+* Thu Jan 05 2006 Fernando Nasser <fnasser@redhat.com> - 0:1.1.1-3jpp
+- First JPP 1.7 build
+
+* Sun Aug 23 2004 Randy Watler <rwatler at finali.com> - 0:1.1.1-2jpp
+- Rebuild with ant-1.6.2
+
+* Tue Feb 24 2004 Ralph Apel <r.apel at r-apel.de> - 0:1.1.1-1jpp
+- First JPackage release
