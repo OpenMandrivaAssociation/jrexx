@@ -35,7 +35,7 @@ Name:		jrexx
 Version:	1.1.1
 Release:	11
 License:	LGPLv2
-Url:		http://www.karneim.com/jrexx/
+Url:		https://www.karneim.com/jrexx/
 Group:		Development/Java
 Source0:	jrexx-1.1.1-src.zip
 Source1:	jrexx-build.xml
